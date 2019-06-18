@@ -6,6 +6,7 @@
          to allow setting breakpoints, to provide hot reload, etc.
     -->
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
          calls FlutterMain.startInitialization(this); in its onCreate method.
@@ -16,6 +17,14 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="osaz"
         android:icon="@mipmap/ic_launcher">
+
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBOGkO9x4t9MYhUkRTdNRQo-1odXVRJhDA" />
+
+
+
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -30,9 +39,8 @@
             <meta-data
                 android:name="io.flutter.app.android.SplashScreenUntilFirstFrame"
                 android:value="true" />
-            <meta-data
-                android:name="com.google.android.geo.API_KEY"
-                android:value="AIzaSyBOGkO9x4t9MYhUkRTdNRQo-1odXVRJhDA" />
+
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
