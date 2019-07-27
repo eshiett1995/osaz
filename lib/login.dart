@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:osaz/dashboard.dart';
+import 'dashboard.dart';
 
 class LoginPage extends StatefulWidget {
   static String tag = 'login-page';

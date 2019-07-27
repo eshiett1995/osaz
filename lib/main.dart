@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:intro_slider/intro_slider.dart';
-import 'package:osaz/login.dart';
+
+import 'dashboard.dart';
 
 void main() => runApp(new MyApp());
 
@@ -10,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Orphange',
       theme: new ThemeData(
         // This is the theme of your application.
         //
@@ -21,8 +22,9 @@ class MyApp extends StatelessWidget {
         // or press Run > Flutter Hot Reload in IntelliJ). Notice that the
         // counter didn't reset back to zero; the application is not restarted.
         primarySwatch: Colors.blue,
+        fontFamily: 'Montserrat'
       ),
-      home: new MyHomePage(title: 'Flutter Demo Home Page'),
+      home: new MyHomePage(title: 'Orphange'),
     );
   }
 }
@@ -56,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
       new Slide(
         title: "Got A Package",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
-        pathImage: "assets/images/packing.png",
+        pathImage: "assets/images/baby.png",
         backgroundColor: Color(0xfff5a623),
       ),
     );
@@ -64,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
       new Slide(
         title: "Need a Deliverer",
         description: "ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur",
-        pathImage: "assets/images/delivery-truck.png",
+        pathImage: "assets/images/family.png",
         backgroundColor: Color(0xff203152),
       ),
     );
@@ -73,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: "We Got You Covered",
         description:
         "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-        pathImage: "assets/images/handshake.png",
+        pathImage: "assets/images/playtime.png",
         backgroundColor: Color(0xff9932CC),
       ),
     );
@@ -82,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void onDonePress() {
     var route = new MaterialPageRoute(
       builder: (BuildContext context) =>
-      new LoginPage(),
+      new DashBoard(),
     );
 
     Navigator.of(context).push(route);

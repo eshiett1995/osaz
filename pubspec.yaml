@@ -1,4 +1,4 @@
-name: osaz
+name: Osi
 description: A new Flutter application.
 
 # The following defines the version and build number for your application.
@@ -18,15 +18,20 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
+  http: ^0.12.0
+  shared_preferences: ^0.4.3
   cupertino_icons: ^0.1.2
   intro_slider: ^1.1.1
   google_maps_flutter: ^0.5.16
+  location: ^2.3.5
+  inview_notifier_list: ^0.0.2
 
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
 
 
 # For information on the generic Dart part of this file, see the
@@ -46,9 +51,11 @@ flutter:
   #  - images/a_dot_ham.jpeg
   - assets/images/handshake.png
   - assets/images/packing.png
-  - assets/images/delivery-truck.png
+  - assets/images/playtime.png
   - assets/images/logo.png
   - assets/images/marker.png
+  - assets/images/baby.png
+  - assets/images/family.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
@@ -63,9 +70,10 @@ flutter:
   # example:
 
 fonts:
-- family: icomoon
+- family: Montserrat
   fonts:
-  - asset: assets/fonts/IcoMoon.ttf
+    - asset: fonts/Montserrat-Regular.ttf
+
 
 # fonts:
 #   - family: Schyler

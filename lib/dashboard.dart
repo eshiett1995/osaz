@@ -1,8 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 
+import 'OrphanageDetail.dart';
 import 'custom-widgets/badge.dart';
+import 'custom-widgets/starDisplay.dart';
 import 'needs.dart';
 
 class DashBoard extends StatefulWidget {
@@ -16,33 +21,29 @@ class _DashBoardState extends State<DashBoard> {
 
   final homeScaffoldKey = GlobalKey<ScaffoldState>();
 
+  LatLng deviceCurrentLocation = new LatLng(45.521563, -122.677433);
+
   GoogleMapController mapController;
 
-  final LatLng _center = const LatLng(45.521563, -122.677433);
+  void getDeviceCurrentLocation() async{
+    await new Location().getLocation().then((locationData){
+      deviceCurrentLocation = new LatLng(locationData.latitude, locationData.longitude);
+      print("this is the location " + deviceCurrentLocation.longitude.toString() + deviceCurrentLocation.latitude.toString() );
+    });
 
-  void _showPlaceBottomSheet(context) {
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext bc) {
-          return Container(
-            child: new Wrap(
-              children: <Widget>[
-                new ListTile(
-                    leading: new Icon(Icons.music_note),
-                    title: new Text('Music'),
-                    onTap: () => {}),
-                new ListTile(
-                  leading: new Icon(Icons.videocam),
-                  title: new Text('Video'),
-                  onTap: () => {},
-                ),
-              ],
-            ),
-          );
-        });
+    setState(() {});
   }
 
-  void _onMapLongTapped(LatLng location) {}
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getDeviceCurrentLocation();
+    //deviceCurrentLocation = new LatLng(0, 0);
+    setState(() {
+
+    });
+  }
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -66,11 +67,54 @@ class _DashBoardState extends State<DashBoard> {
             mapType: MapType.normal,
             myLocationEnabled: true,
             initialCameraPosition: CameraPosition(
-              target: mapController == null ? _center : LatLng(10, 10),
+              target: deviceCurrentLocation,
+              //target: mapController == null ? _center : deviceCurrentLocation,
               zoom: 11.0,
             ),
           ),
         ),
+        Transform.translate(
+          offset: Offset(0.0, 70),
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 20.0),
+            child: new Column(
+              children: <Widget>[
+                new Container(
+                  height: 50.0,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(2.0),
+                    boxShadow: [
+                      new BoxShadow (
+                        color: Colors.black26,
+                        offset: new Offset(0.0, 0.07),
+                        blurRadius: 5.0,
+                      ),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                    child: TextField(
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Enter a locatition ...',
+                          hintStyle: TextStyle(fontSize: 20.0),
+                          prefixIcon: new Icon(Icons.location_on, color: Colors.black, size: 35.0,),
+                      ),
+                    ),
+                  ),
+                ),
+                new Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    new RaisedButton(onPressed: (){}, color: Colors.black, child: new Text("search", style: TextStyle(color: Colors.white, fontSize: 20.0),),)
+                  ],
+                )
+              ],
+            ),
+          )
+        ),
+        //InViewNotifierList(),
         new Column(
           mainAxisAlignment: MainAxisAlignment.end,
           mainAxisSize: MainAxisSize.max,
@@ -91,6 +135,80 @@ class _DashBoardState extends State<DashBoard> {
 
                           new Text(
                               "St. marys boys",
+                            style: new TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20.0
+                            ),
+                          ),
+
+                          new SizedBox(height: 5.0,),
+                          new Text(
+                            "Road 40, H36, Victoria garden city, lekki, lagos, ajah.",
+                            style: new TextStyle(color: Colors.black54),
+                          ),
+                          new SizedBox(height: 10.0,),
+
+
+                          new Row(
+                            children: <Widget>[
+                              IconTheme(
+                                data: IconThemeData(
+                                  color: Colors.amber,
+                                  size: 30,
+                                ),
+                                child: StarDisplay(value: 3),
+                              ),
+                            ],
+                          ),
+                          new Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: <Widget>[
+                              Container(
+                                margin: EdgeInsets.only(right: 5.0),
+                                child: new FlatButton(
+                                    child: new Text("Details",style: TextStyle(color: Colors.white),),
+                                    color: Colors.blue,
+                                    onPressed: () {
+                                      var route = new MaterialPageRoute(
+                                        builder: (BuildContext context) => new OrphanageDetail(),
+                                      );
+                                      Navigator.of(context).push(route);
+                                    },
+                                    shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(5.0))
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(left: 5.0),
+                                child: new FlatButton(
+                                    child: new Text("Needs", style: TextStyle(color: Colors.white),),
+                                    color: Colors.pinkAccent,
+                                    onPressed: () {
+                                      var route = new MaterialPageRoute(
+                                          builder: (BuildContext context) => new Needs(),
+                                      );
+                                      Navigator.of(context).push(route);
+                                    },
+                                    shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(5.0))
+                                ),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10.0,
+                  ),
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
+                      child: new Column(
+                        children: <Widget>[
+
+                          new Text(
+                            "St. marys boys",
                             style: new TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20.0
@@ -131,10 +249,10 @@ class _DashBoardState extends State<DashBoard> {
                               Container(
                                 margin: EdgeInsets.only(left: 5.0),
                                 child: new OutlineButton(
-                                    child: new Text("Needs"),
+                                    child: new Text("Needs", style: TextStyle(fontFamily: 'Montserrat',),),
                                     onPressed: () {
                                       var route = new MaterialPageRoute(
-                                          builder: (BuildContext context) => new Needs(),
+                                        builder: (BuildContext context) => new Needs(),
                                       );
                                       Navigator.of(context).push(route);
                                     },
@@ -150,26 +268,6 @@ class _DashBoardState extends State<DashBoard> {
                   SizedBox(
                     width: 10.0,
                   ),
-                  Container(
-                    width: 300.0,
-                    decoration: new BoxDecoration(
-                      color: Colors.lightBlueAccent, //new Color.fromRGBO(255, 0, 0, 0.0),
-                      borderRadius: new BorderRadius.all(Radius.circular(20.0)),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10.0,
-                  ),
-                  Container(
-                    width: 300.0,
-                    decoration: new BoxDecoration(
-                      color: Colors.lightBlueAccent, //new Color.fromRGBO(255, 0, 0, 0.0),
-                      borderRadius: new BorderRadius.all(Radius.circular(20.0)),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10.0,
-                  ),
                 ],
               ),
               margin: EdgeInsets.symmetric(horizontal: 10.0),
@@ -178,47 +276,6 @@ class _DashBoardState extends State<DashBoard> {
           ],
         ),
 
-        /** new Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  new Container(
-                    width: 270.0,
-                    height: 30.0,
-                    child: new TextFormField(
-                      //onChanged: (v)=>setState((){loginEmail=v;}),
-
-                      decoration: new InputDecoration(
-                          enabledBorder: new OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                            borderSide: BorderSide(
-                              color: Colors.blue,
-                              width: 1.0,
-                            ),
-                          ),
-                          prefixIcon: Icon(Icons.pin_drop,),
-                          contentPadding: const EdgeInsets.only(
-                              left: 10.0, top: 10.0, bottom: 10.0),
-                          border: new OutlineInputBorder(
-                            borderSide: BorderSide(
-                              width: 1.0,
-                            ),
-                            gapPadding: 1.0,
-                            borderRadius: const BorderRadius.all(
-                              const Radius.circular(30.0),
-                            ),
-                          ),
-                          filled: true,
-                          fillColor: Colors.white),
-                    ),
-                  )
-                ],
-              )
-            ],
-          )**/
       ],
     ));
   }
